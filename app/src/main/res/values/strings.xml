@@ -8,5 +8,10 @@
     <string name="title_activity_edit_item">EditItemActivity</string>
     <string name="save">Save</string>
     <string name="editLabel">Edit task</string>
+    <string-array name="priority">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.sewing.todo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 
@@ -21,10 +24,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> todoItems;
-    ArrayAdapter<String> aToDoAdapter;
+    ArrayList<Item> todoItems;
+    ItemAdapter aToDoAdapter;
     ListView lvItems;
     EditText etEditText;
+    Spinner priority;
     private final int REQUEST_CODE = 200;
 
 
@@ -36,6 +40,19 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(aToDoAdapter);
         etEditText = (EditText) findViewById(R.id.etEditText);
+        priority = (Spinner) findViewById(R.id.spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.priority, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        priority.setAdapter(adapter);
+
+
+
+
+
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,27 +80,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void populateAarrayItems() {
         readItems();
-        aToDoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
+        aToDoAdapter = new ItemAdapter(this, todoItems);
     }
 
     private void readItems(){
         File filesDir = getFilesDir();
         File file = new File(filesDir, "todo.txt");
-        try {
-            todoItems = new ArrayList<String>(FileUtils.readLines((file)));
-        } catch (IOException e){
-
-        }
+        todoItems = new ArrayList<Item>();
     }
 
     private void writeItems(){
-        File filesDir = getFilesDir();
-        File file = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(file, todoItems);
-        } catch (IOException e){
 
-        }
+//        File filesDir = getFilesDir();
+//        File file = new File(filesDir, "todo.txt");
+//        try {
+//            FileUtils.writeLines(file, todoItems);
+//        } catch (IOException e){
+//
+//        }
     }
 
     @Override
@@ -109,7 +123,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddItem(View view) {
-        aToDoAdapter.add(etEditText.getText().toString());
+        String text   = etEditText.getText().toString();
+        String choice = priority.getSelectedItem().toString();
+
+
+        Item  item = new Item(text, choice);
+        aToDoAdapter.add(item);
+        TextView tv = (TextView) findViewById(R.id.etEditText);
+
         etEditText.setText("");
         writeItems();
     }
@@ -119,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE){
             String update = data.getExtras().getString("update");
             int position = data.getExtras().getInt("position");
-            todoItems.set(position, update);
+//            todoItems.set(position, update);
             aToDoAdapter.notifyDataSetChanged();
             writeItems();
         }

@@ -22,16 +22,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/btnAddItem" />
+        android:layout_above="@+id/etEditText" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/etEditText"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:hint="@string/addItem"
+        android:layout_alignBottom="@+id/btnAddItem" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_alignBottom="@+id/etEditText"
+        android:layout_toRightOf="@+id/etEditText"
         android:layout_toLeftOf="@+id/btnAddItem"
         android:layout_toStartOf="@+id/btnAddItem"
-        android:hint="@string/addItem" />
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/lvItems" />
+
 </RelativeLayout>
