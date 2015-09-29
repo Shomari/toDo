@@ -35,4 +35,13 @@
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSpinner"
+        android:layout_alignTop="@+id/etEdit"
+        android:layout_toRightOf="@+id/etEdit"
+        android:layout_toEndOf="@+id/etEdit"
+        android:spinnerMode="dropdown" />
 </RelativeLayout>

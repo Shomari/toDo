@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchEditView(int position) {
         Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-        String input = todoItems.get(position).toString();
+        String input = todoItems.get(position).text.toString();
+        String priority = todoItems.get(position).priority;
+        i.putExtra("priority", priority);
         i.putExtra("item", input);
         i.putExtra("position", position);
         startActivityForResult(i, REQUEST_CODE);
@@ -139,8 +141,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE){
             String update = data.getExtras().getString("update");
+            String updatedPriority = data.getExtras().getString("priority");
+
             int position = data.getExtras().getInt("position");
-//            todoItems.set(position, update);
+            Item updatedItem = new Item(update, updatedPriority);
+            todoItems.set(position, updatedItem);
             aToDoAdapter.notifyDataSetChanged();
             writeItems();
         }
